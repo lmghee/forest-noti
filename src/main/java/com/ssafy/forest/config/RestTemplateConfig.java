@@ -20,12 +20,24 @@ public class RestTemplateConfig {
         return new RestTemplate();
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public MattermostSender mattermostSender(MattermostProperties mattermostProperties) {
-//        return new MattermostSender(restTemplate(), mattermostProperties);
-//    }
-//
+    @Bean
+    @ConditionalOnMissingBean
+    public MattermostSender mattermostSender(MattermostProperties mattermostProperties) {
+        return new MattermostSender(restTemplate(), mattermostProperties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public NotificationManager notificationManager() {
+        return new NotificationManager();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ControllerAdvice controllerAdvice() {
+        return new ControllerAdvice();
+    }
+
 //    @Bean
 //    @ConditionalOnMissingBean
 //    public NotificationManager notificationManager(MattermostProperties mattermostProperties) {
