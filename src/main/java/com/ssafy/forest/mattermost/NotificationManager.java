@@ -15,7 +15,7 @@ public class NotificationManager {
     private MattermostSender mmSender;
 
     public void sendNotification(CustomException e, String uri, String params) {
-        log.info("#### SEND Notification");
+//        log.info("#### SEND Notification");
         mmSender.sendMessage(e, uri, params);
     }
 }
