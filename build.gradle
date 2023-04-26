@@ -1,5 +1,22 @@
+buildscript {
+    ext {
+        springBootVersion = '2.7.11'
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'com.ssafy'
 version = '0.0.1'
@@ -7,26 +24,26 @@ version = '0.0.1'
 sourceCompatibility = 11
 targetCompatibility = 11
 
-repositories {
-    mavenCentral()
-}
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
 
-dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.11'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.7.11'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.7.11'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.7.11'
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
-    implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
+repositories {
+    mavenCentral()
+}
 
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 java {
@@ -45,4 +62,8 @@ publishing {
 wrapper {
     gradleVersion = "7.3.3"
     distributionType = Wrapper.DistributionType.ALL
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
