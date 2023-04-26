@@ -5,7 +5,7 @@ group = 'com.ssafy'
 version = '0.0.1'
 
 sourceCompatibility = '11'
-targetCompatibility = 11
+targetCompatibility = '11'
 
 configurations {
     compileOnly {
