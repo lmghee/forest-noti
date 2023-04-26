@@ -14,10 +14,6 @@ public class NotificationManager {
     @Autowired
     private MattermostSender mmSender;
 
-//    public NotificationManager(MattermostSender mmSender) {
-//        this.mmSender = mmSender;
-//    }
-
     public void sendNotification(CustomException e, String uri, String params) {
         log.info("#### SEND Notification");
         mmSender.sendMessage(e, uri, params);

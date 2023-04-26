@@ -38,16 +38,4 @@ public class RestTemplateConfig {
         return new ControllerAdvice();
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public NotificationManager notificationManager(MattermostProperties mattermostProperties) {
-//        return new NotificationManager(mattermostSender(mattermostProperties));
-//    }
-//
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public ControllerAdvice controllerAdvice(MattermostProperties mattermostProperties) {
-//        return new ControllerAdvice(notificationManager(mattermostProperties));
-//    }
-
 }

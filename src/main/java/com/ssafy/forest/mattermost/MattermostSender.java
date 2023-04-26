@@ -29,11 +29,6 @@ public class MattermostSender {
     private final RestTemplate restTemplate;
     private final MattermostProperties mattermostProperties;
 
-//    public MattermostSender(RestTemplate restTemplate, MattermostProperties mattermostProperties) {
-//        this.restTemplate = restTemplate;
-//        this.mattermostProperties = mattermostProperties;
-//    }
-
     public void sendMessage(CustomException exception, String uri, String params) {
         if(!mmEnabled) return;
 

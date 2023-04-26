@@ -1,6 +1,7 @@
 package com.ssafy.forest.controller;
 
 import com.ssafy.forest.exception.CustomException;
+import com.ssafy.forest.exception.dto.ErrorResponse;
 import com.ssafy.forest.mattermost.NotificationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +18,13 @@ public class ControllerAdvice {
     @Autowired
     private NotificationManager notificationManager;
 
-//    public ControllerAdvice(NotificationManager notificationManager) {
-//        this.notificationManager = notificationManager;
-//    }
-
     @ExceptionHandler
-    public ResponseEntity<?> exceptionHandler(CustomException e, HttpServletRequest req) {
+    public ErrorResponse exceptionHandler(CustomException e, HttpServletRequest req) {
         String resquestUrl = req.getRequestURI();
         if(e.getCodable().getIsNotify()) {
-            System.out.println("------1------");
-            System.out.println(e.getCodable().getMessage());
             notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
         }
-
-        return ResponseEntity.of(Optional.of("hi"));
+        return new ErrorResponse(e, req.getRequestURI());
     }
 
 
