@@ -12,8 +12,8 @@ import java.time.format.DateTimeFormatter;
 @Component
 @Getter
 @Setter
-@ConfigurationProperties("notification.mattermost")
 @Primary
+@ConfigurationProperties("notification.mattermost")
 public class MattermostProperties {
 
     private String channel;

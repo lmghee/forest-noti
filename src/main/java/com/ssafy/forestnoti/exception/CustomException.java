@@ -2,25 +2,21 @@ package com.ssafy.forestnoti.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomException {
+public class CustomException extends RuntimeException implements Codable {
 
     private ErrorCode errorCode;
-    private HttpStatus httpStatus;
 
     private CustomException(ErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 
-    public CustomException(ErrorCode errorCode, HttpStatus status) {
-        this.errorCode = errorCode;
-        this.httpStatus = status;
+    @Override
+    public HttpStatus getStatus() {
+        return errorCode.getStatus();
     }
 
-    public ErrorCode getErrorCode() {
-        return errorCode;
-    }
-
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
+    @Override
+    public String getMessage() {
+        return errorCode.getMessage();
     }
 }
