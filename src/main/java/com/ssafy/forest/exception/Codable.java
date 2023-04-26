@@ -6,5 +6,6 @@ public interface Codable {
 
     String getMessage();
     HttpStatus getStatus();
+    boolean getIsNotify();
 
 }

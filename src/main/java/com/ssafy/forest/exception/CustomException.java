@@ -19,4 +19,9 @@ public class CustomException extends RuntimeException implements Codable {
     public String getMessage() {
         return errorCode.getMessage();
     }
+
+    @Override
+    public boolean getIsNotify() {
+        return errorCode.getIsNotify();
+    }
 }

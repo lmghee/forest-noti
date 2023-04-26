@@ -20,10 +20,12 @@ public class ControllerAdvice {
     @ExceptionHandler
     public ResponseEntity<?> exceptionHandler(CustomException e, HttpServletRequest req) {
         String resquestUrl = req.getRequestURI();
-        notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
+        if(e.getIsNotify())
+            notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
 
         return ResponseEntity.of(Optional.of("hi"));
     }
+
 
     private String getParams(HttpServletRequest req) {
         StringBuilder params = new StringBuilder();
