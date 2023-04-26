@@ -53,7 +53,7 @@ java {
 publishing {
     publications {
         maven(MavenPublication) {
-            group = 'com.ssafy'
+            groupId = 'com.ssafy'
             artifactId = 'library'
             version = '1.0'
             from components.java
