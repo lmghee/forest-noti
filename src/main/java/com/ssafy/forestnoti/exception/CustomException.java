@@ -6,7 +6,7 @@ public class CustomException extends RuntimeException implements Codable {
 
     private ErrorCode errorCode;
 
-    private CustomException(ErrorCode errorCode) {
+    public CustomException(ErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 

@@ -2,7 +2,7 @@ package com.ssafy.forestnoti.exception;
 
 import org.springframework.http.HttpStatus;
 
-enum ErrorCode implements Codable {
+public enum ErrorCode implements Codable {
     AUTH_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
     ;
 
