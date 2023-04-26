@@ -17,28 +17,24 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        System.out.println("1생성됐다");
         return new RestTemplate();
     }
 
     @Bean
     @ConditionalOnMissingBean
     public MattermostSender mattermostSender(MattermostProperties mattermostProperties) {
-        System.out.println("2생성됐다");
         return new MattermostSender(restTemplate(), mattermostProperties);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public NotificationManager notificationManager(MattermostProperties mattermostProperties) {
-        System.out.println("3생성됐다");
         return new NotificationManager(mattermostSender(mattermostProperties));
     }
 
     @Bean
     @ConditionalOnMissingBean
     public ControllerAdvice controllerAdvice(MattermostProperties mattermostProperties) {
-        System.out.println("4생성됐다");
         return new ControllerAdvice(notificationManager(mattermostProperties));
     }
 
