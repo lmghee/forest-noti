@@ -22,7 +22,6 @@ public enum ErrorCode implements Codable {
         return status;
     }
 
-
     @Override
     public String getMessage() {
         return message;
