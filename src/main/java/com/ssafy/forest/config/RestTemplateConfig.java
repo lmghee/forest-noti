@@ -28,13 +28,13 @@ public class RestTemplateConfig {
     @Bean
     @ConditionalOnMissingBean
     public NotificationManager notificationManager(MattermostProperties mattermostProperties) {
-        return new NotificationManager();
+        return new NotificationManager(mattermostSender(mattermostProperties));
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ControllerAdvice controllerAdvice() {
-        return new ControllerAdvice();
+    public ControllerAdvice controllerAdvice(MattermostProperties mattermostProperties) {
+        return new ControllerAdvice(notificationManager(mattermostProperties));
     }
 
 }

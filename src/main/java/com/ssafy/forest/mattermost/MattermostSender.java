@@ -1,7 +1,7 @@
 package com.ssafy.forest.mattermost;
 
 import com.google.gson.Gson;
-import lombok.RequiredArgsConstructor;
+import com.ssafy.forest.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,6 @@ import com.ssafy.forest.mattermost.MattermostMessageDto.Attachment;
 import com.ssafy.forest.mattermost.MattermostMessageDto.Attachments;
 
 @Component
-@RequiredArgsConstructor
 public class MattermostSender {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -28,7 +27,12 @@ public class MattermostSender {
     private final RestTemplate restTemplate;
     private final MattermostProperties mattermostProperties;
 
-    public void sendMessage(Exception exception, String uri, String params) {
+    public MattermostSender(RestTemplate restTemplate, MattermostProperties mattermostProperties) {
+        this.restTemplate = restTemplate;
+        this.mattermostProperties = mattermostProperties;
+    }
+
+    public void sendMessage(CustomException exception, String uri, String params) {
         if(!mmEnabled) return;
 
         try {

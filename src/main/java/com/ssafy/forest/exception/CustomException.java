@@ -13,4 +13,6 @@ public class CustomException extends RuntimeException {
     public Codable getCodable() {
         return codable;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.ssafy.forest.mattermost;
 
 import com.google.gson.annotations.SerializedName;
+import com.ssafy.forest.exception.CustomException;
 import lombok.*;
 
 import java.io.PrintWriter;
@@ -53,17 +54,17 @@ public class MattermostMessageDto {
         private String text;
         private String footer;
 
-        public void addExceptionInfo(Exception e) {
+        public void addExceptionInfo(CustomException e) {
             this.title = e.getClass().getSimpleName();
             StringBuilder sb = new StringBuilder(text);
 
-            sb.append("**Error Message**").append('\n').append('\n').append("```").append(e.getMessage()).append("```")
+            sb.append("**Error Message**").append('\n').append('\n').append("```").append(e.getCodable().getMessage()).append("```")
                     .append('\n').append('\n');
 
             this.text = sb.toString();
         }
 
-        public void addExceptionInfo(Exception e, String uri) {
+        public void addExceptionInfo(CustomException e, String uri) {
             this.addExceptionInfo(e);
             StringBuilder sb = new StringBuilder(text);
 
@@ -72,7 +73,7 @@ public class MattermostMessageDto {
             this.text = sb.toString();
         }
 
-        public void addExceptionInfo(Exception e, String uri, String params) {
+        public void addExceptionInfo(CustomException e, String uri, String params) {
             this.addExceptionInfo(e, uri);
             StringBuilder sb = new StringBuilder(text);
 
