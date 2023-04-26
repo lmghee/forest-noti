@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.ssafy.forest.mattermost.MattermostMessageDto.Attachment;
 import com.ssafy.forest.mattermost.MattermostMessageDto.Attachments;
 
-@Component
+//@Component
 public class MattermostSender {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());

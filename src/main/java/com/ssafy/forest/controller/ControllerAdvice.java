@@ -22,8 +22,11 @@ public class ControllerAdvice {
     @ExceptionHandler
     public ResponseEntity<?> exceptionHandler(CustomException e, HttpServletRequest req) {
         String resquestUrl = req.getRequestURI();
-        if(e.getCodable().getIsNotify())
+        if(e.getCodable().getIsNotify()) {
+            System.out.println("------1------");
+            System.out.println(e.getCodable().getMessage());
             notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
+        }
 
         return ResponseEntity.of(Optional.of("hi"));
     }
