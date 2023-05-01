@@ -3,9 +3,15 @@ package com.ssafy.forest.jwt;
 import com.google.gson.Gson;
 import org.apache.tomcat.util.codec.binary.Base64;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 public class JwtDecoder {
+
+    public static DecodedToken decode(HttpServletRequest request) throws UnsupportedEncodingException {
+        String jwt = request.getHeader("Authorization").substring(7);
+        return decode(jwt);
+    }
 
     public static DecodedToken decode(String jwt) throws UnsupportedEncodingException {
         String[] pieces = jwt.split("\\.");
