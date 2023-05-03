@@ -8,6 +8,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -25,6 +26,10 @@ public class JwtDecoder {
     private String url;
 
     public Map<String, Object> verifyJWT(HttpServletRequest request) throws UnsupportedEncodingException {
+
+        if (request == null) {
+            throw new CustomException(ErrorCode.TOKEN_NOT_FOUND);
+        }
 
         String authorization = request.getHeader("Authorization").substring(7);
         log.info("auto : {}", authorization);
@@ -52,6 +57,8 @@ public class JwtDecoder {
         catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
             System.out.println("# EXPIR TOKEN ===");
             System.out.println(e);
+            claimMap.get("exp");
+
             throw new CustomException(ErrorCode.AUTH_EXPIRED_TOKEN);
         }
         catch (Exception e) { // 그외 에러났을 경우

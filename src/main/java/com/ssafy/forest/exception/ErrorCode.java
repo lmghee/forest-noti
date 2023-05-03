@@ -6,6 +6,7 @@ public enum ErrorCode implements Codable {
 
     AUTH_EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Access Token 기한이 만료되었습니다.", true),
     AUTH_WRONG_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 토큰입니다.", true),
+    TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "토큰이 없습니다.", true),
     ;
 
     private final HttpStatus status;
