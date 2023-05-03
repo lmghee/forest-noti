@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.AccessDeniedException;
 import java.util.Enumeration;
 import java.util.Optional;
 
@@ -36,14 +38,17 @@ public class ControllerAdvice {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity exceptionTest(Exception e, HttpServletRequest req) {
+    public ResponseEntity<?> exceptionTest(Exception e, HttpServletRequest req) throws Exception {
         e.printStackTrace();
+        if (e instanceof AccessDeniedException || e instanceof AuthenticationException) {
+            throw e;
+        }
         notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity bindingTest(MethodArgumentNotValidException e, HttpServletRequest req) {
+    public ResponseEntity<?> bindingTest(MethodArgumentNotValidException e, HttpServletRequest req) {
         e.printStackTrace();
         notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
