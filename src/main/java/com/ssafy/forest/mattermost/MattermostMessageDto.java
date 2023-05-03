@@ -3,6 +3,7 @@ package com.ssafy.forest.mattermost;
 import com.google.gson.annotations.SerializedName;
 import com.ssafy.forest.exception.CustomException;
 import lombok.*;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -112,6 +113,34 @@ public class MattermostMessageDto {
 
             this.text = sb.toString();
             return this;
+        }
+
+        public void addExceptionInfo(MethodArgumentNotValidException e) {
+            this.title = e.getClass().getSimpleName();
+            StringBuilder sb = new StringBuilder(text);
+
+            sb.append("**Error Message**").append('\n').append('\n').append("```").append(e.getMessage()).append("```")
+                    .append('\n').append('\n');
+
+            this.text = sb.toString();
+        }
+
+        public void addExceptionInfo(MethodArgumentNotValidException e, String uri) {
+            this.addExceptionInfo(e);
+            StringBuilder sb = new StringBuilder(text);
+
+            sb.append("**Reqeust URL**").append('\n').append('\n').append(uri).append('\n').append('\n');
+
+            this.text = sb.toString();
+        }
+
+        public void addExceptionInfo(MethodArgumentNotValidException e, String uri, String params) {
+            this.addExceptionInfo(e, uri);
+            StringBuilder sb = new StringBuilder(text);
+
+            sb.append("**Parameters**").append('\n').append('\n').append(params.toString()).append('\n').append('\n');
+
+            this.text = sb.toString();
         }
     }
 

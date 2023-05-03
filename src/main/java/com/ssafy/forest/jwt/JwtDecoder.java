@@ -67,21 +67,4 @@ public class JwtDecoder {
 
         return userId;
     }
-
-    public static DecodedToken decode(HttpServletRequest request) throws UnsupportedEncodingException {
-        String jwt = request.getHeader("Authorization").substring(7);
-        System.out.println(jwt);
-        return decode(jwt);
-    }
-
-    public static DecodedToken decode(String jwt) throws UnsupportedEncodingException {
-        String[] pieces = jwt.split("\\.");
-        String b64payload = pieces[1];
-//        String jsonString = new String(Base64.decodeBase64(b64payload), "UTF-8");
-        String jsonString = "aa";
-
-        System.out.println(jsonString);
-
-        return new Gson().fromJson(jsonString, DecodedToken.class);
-    }
 }
