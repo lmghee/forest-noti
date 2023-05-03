@@ -8,13 +8,13 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 public class JwtDecoder {
@@ -27,9 +27,8 @@ public class JwtDecoder {
 
     public Map<String, Object> verifyJWT(HttpServletRequest request) throws UnsupportedEncodingException {
 
-        if (request == null) {
-            throw new CustomException(ErrorCode.TOKEN_NOT_FOUND);
-        }
+        String check = Optional.ofNullable(request.getHeader("Authorization"))
+                .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_NOT_FOUND));
 
         String authorization = request.getHeader("Authorization").substring(7);
         log.info("auto : {}", authorization);
