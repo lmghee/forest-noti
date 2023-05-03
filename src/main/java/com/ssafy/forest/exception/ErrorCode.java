@@ -3,8 +3,9 @@ package com.ssafy.forest.exception;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode implements Codable {
-    TEST_OK_NOTIFY(HttpStatus.NOT_FOUND, "MM이 갑니다", true),
-    TEST_NO_NOTIFY(HttpStatus.NOT_FOUND, "MM이 안갑니다", false),
+
+    AUTH_EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Access Token 기한이 만료되었습니다.", true),
+    AUTH_WRONG_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 토큰입니다.", true),
     ;
 
     private final HttpStatus status;

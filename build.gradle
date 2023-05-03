@@ -21,6 +21,11 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.7.11'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
 
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
     annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.7.11'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
     testImplementation platform('org.junit:junit-bom:5.9.1')
