@@ -8,6 +8,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
+@Component
 public class JwtDecoder {
 
     @Value("${jwt.token.secretKey}")
@@ -25,14 +27,14 @@ public class JwtDecoder {
     @Value("${jwt.redirect-url}")
     private String url;
 
-    public Map<String, Object> verifyJWT(HttpServletRequest request) throws UnsupportedEncodingException {
+    public Long verifyJWT(HttpServletRequest request) throws UnsupportedEncodingException {
+        log.info("key: {}", secretKey);
 
         String check = Optional.ofNullable(request.getHeader("Authorization"))
                 .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_NOT_FOUND));
 
         String authorization = request.getHeader("Authorization").substring(7);
         log.info("auto : {}", authorization);
-        log.info("key: {}", secretKey);
         log.info("url : {}", url);
         secretKey = "Q4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4HQ4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4H";
 
@@ -49,27 +51,21 @@ public class JwtDecoder {
 
             claimMap = claims;
 
-            Date expiration = claims.get("exp", Date.class);
-            log.info("exp : {}", expiration);
-//            String data = claims.get("data", String.class);
+//            Date expiration = claims.get("exp", Date.class);
+//            log.info("exp : {}", expiration);
         }
         catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
-            System.out.println("# EXPIR TOKEN ===");
-            System.out.println(e);
-            claimMap.get("exp");
-
+            log.info("# EXPIR TOKEN === {}", e);
             throw new CustomException(ErrorCode.AUTH_EXPIRED_TOKEN);
         }
         catch (Exception e) { // 그외 에러났을 경우
-            System.out.println("# ERROR TOKEN ===");
-            System.out.println(e);
+            log.info("# ERROR TOKEN === {}", e);
             throw new CustomException(ErrorCode.AUTH_WRONG_TOKEN);
         }
 
-        Map<String, Object> autoInfo = new HashMap<>();
-        autoInfo.put("userId", claimMap.get("userId"));
+        Long userId = Long.valueOf(claimMap.get("userId").toString());
 
-        return autoInfo;
+        return userId;
     }
 
     public static DecodedToken decode(HttpServletRequest request) throws UnsupportedEncodingException {
