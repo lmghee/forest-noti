@@ -29,7 +29,9 @@ public class ControllerAdvice {
         if(e.getCodable().getIsNotify()) {
             notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
         }
-        return new ResponseEntity<>(e.getCodable().getStatus(), e.getCodable().getStatus());
+
+        ErrorResponse errorResponse = new ErrorResponse(e, req.getRequestURI());
+        return new ResponseEntity<>(errorResponse, e.getCodable().getStatus());
     }
 
 
