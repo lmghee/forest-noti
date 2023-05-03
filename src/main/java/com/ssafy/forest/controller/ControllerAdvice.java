@@ -1,6 +1,7 @@
 package com.ssafy.forest.controller;
 
 import com.ssafy.forest.exception.CustomException;
+import com.ssafy.forest.exception.ErrorCode;
 import com.ssafy.forest.exception.dto.ErrorResponse;
 import com.ssafy.forest.mattermost.NotificationManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,13 +23,15 @@ public class ControllerAdvice {
     private NotificationManager notificationManager;
 
     @ExceptionHandler(CustomException.class)
-    public ErrorResponse exceptionHandler(CustomException e, HttpServletRequest req) {
+    public ResponseEntity<?> exceptionHandler(CustomException e, HttpServletRequest req) {
         String resquestUrl = req.getRequestURI();
+
         if(e.getCodable().getIsNotify()) {
             notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
         }
-        return new ErrorResponse(e, req.getRequestURI());
+        return new ResponseEntity<>(e.getCodable().getStatus(), e.getCodable().getStatus());
     }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity exceptionTest(Exception e, HttpServletRequest req) {
