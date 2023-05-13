@@ -28,14 +28,12 @@ public class JwtDecoder {
     private String url;
 
     public Long verifyJWT(HttpServletRequest request) throws UnsupportedEncodingException {
-        log.info("Secret Key: {}", secretKey);
 
         String check = Optional.ofNullable(request.getHeader("Authorization"))
                 .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_NOT_FOUND));
 
         String authorization = request.getHeader("Authorization").substring(7);
         log.info("Access Key : {}", authorization);
-        log.info("url : {}", url);
 
         Map<String, Object> claimMap;
 
