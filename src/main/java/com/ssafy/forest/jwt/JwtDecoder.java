@@ -28,22 +28,18 @@ public class JwtDecoder {
     private String url;
 
     public Long verifyJWT(HttpServletRequest request) throws UnsupportedEncodingException {
-        log.info("key: {}", secretKey);
+        log.info("Secret Key: {}", secretKey);
 
         String check = Optional.ofNullable(request.getHeader("Authorization"))
                 .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_NOT_FOUND));
 
         String authorization = request.getHeader("Authorization").substring(7);
-        log.info("auto : {}", authorization);
+        log.info("Access Key : {}", authorization);
         log.info("url : {}", url);
-        secretKey = "Q4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4HQ4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4H";
 
-        System.out.println(secretKey);
-
-        Map<String, Object> claimMap = null;
+        Map<String, Object> claimMap;
 
         try {
-            System.out.println(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authorization).getBody());
             Claims claims = Jwts.parser()
                     .setSigningKey(secretKey) // Set SignKey
                     .parseClaimsJws(authorization) // 파싱 및 검증, 실패 시 에러
@@ -53,6 +49,11 @@ public class JwtDecoder {
 
 //            Date expiration = claims.get("exp", Date.class);
 //            log.info("exp : {}", expiration);
+            Long userId = Long.valueOf(claimMap.get("userId").toString());
+
+            log.info("userId : {}", userId);
+
+            return userId;
         }
         catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
             log.info("# EXPIR TOKEN === {}", e);
@@ -62,9 +63,5 @@ public class JwtDecoder {
             log.info("# ERROR TOKEN === {}", e);
             throw new CustomException(ErrorCode.AUTH_WRONG_TOKEN);
         }
-
-        Long userId = Long.valueOf(claimMap.get("userId").toString());
-
-        return userId;
     }
 }

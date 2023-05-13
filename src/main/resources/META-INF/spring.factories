@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.ssafy.forest.config.RestTemplateConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.ssafy.forest.config.RestTemplateConfig, com.ssafy.forest.config.JwtConfig
