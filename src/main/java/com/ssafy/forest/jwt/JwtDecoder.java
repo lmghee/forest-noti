@@ -59,11 +59,11 @@ public class JwtDecoder {
             return userId;
         }
         catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
-            log.info("# EXPIR TOKEN === {}", e);
+            log.info("EXPIRE TOKEN =====");
             throw new CustomException(ErrorCode.AUTH_EXPIRED_TOKEN);
         }
         catch (Exception e) { // 그외 에러났을 경우
-            log.info("# ERROR TOKEN === {}", e);
+            log.info("# ERROR TOKEN ====== ", e);
             throw new CustomException(ErrorCode.AUTH_WRONG_TOKEN);
         }
     }
