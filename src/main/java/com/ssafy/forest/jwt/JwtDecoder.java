@@ -30,6 +30,10 @@ public class JwtDecoder {
     public Long verifyJWT(HttpServletRequest request) throws UnsupportedEncodingException {
         log.info("Secret Key is Empty : {}", secretKey.isEmpty());
 
+        if (secretKey.isEmpty()) {
+            throw new CustomException(ErrorCode.SECRET_KEY_EMPTY);
+        }
+
         String check = Optional.ofNullable(request.getHeader("Authorization"))
                 .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_NOT_FOUND));
 
