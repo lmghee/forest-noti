@@ -1,12 +1,15 @@
 package com.ssafy.forest.controller;
 
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import com.ssafy.forest.exception.CustomException;
 import com.ssafy.forest.exception.ErrorCode;
 import com.ssafy.forest.exception.dto.ErrorResponse;
 import com.ssafy.forest.mattermost.NotificationManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,6 +21,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.Enumeration;
 import java.util.Optional;
 
+@Slf4j
 @RestControllerAdvice
 public class ControllerAdvice {
 
@@ -49,8 +53,9 @@ public class ControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> bindingTest(MethodArgumentNotValidException e, HttpServletRequest req) {
-        e.printStackTrace();
-        throw new CustomException(ErrorCode.DTO_NO_VAILD);
+        log.info("되는가요");
+        notificationManager.sendNotification(new CustomException(ErrorCode.DTO_NO_VAILD), req.getRequestURI(), getParams(req));
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 //        notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
 //        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
