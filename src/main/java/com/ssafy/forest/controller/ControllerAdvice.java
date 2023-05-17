@@ -50,8 +50,9 @@ public class ControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> bindingTest(MethodArgumentNotValidException e, HttpServletRequest req) {
         e.printStackTrace();
-        notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new CustomException(ErrorCode.DTO_NO_VAILD);
+//        notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
+//        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private String getParams(HttpServletRequest req) {
