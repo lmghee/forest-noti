@@ -35,7 +35,13 @@ public class JwtDecoder {
         }
 
         String check = Optional.ofNullable(request.getHeader("Authorization"))
-                .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_NOT_FOUND));
+                .orElse(null);
+
+        log.info("Access Key is Empty : {}", check);
+
+        if (check == null) {
+            throw new CustomException(ErrorCode.TOKEN_NOT_FOUND);
+        }
 
         String authorization = request.getHeader("Authorization").substring(7);
         log.info("Access Key : {}", authorization);
